@@ -16,6 +16,15 @@ This notebook demonstrates a 2-qubit quantum circuit that creates a Bell state. 
 
 The notebook illustrates entanglement, circuit behaviour, and comparison between simulator and hardware results including statistical and mitigation errors.
 
+## RandNumGen.ipynb
+
+This notebook implements a simple quantum random number generator using measurement statistics from a multi-qubit circuit. It demonstrates:
+
+- Constructing a circuit that produces uniformly distributed bitstrings
+- Executing the circuit on a simulator or real backend
+- Converting measured bitstrings into integers
+- Visualising the resulting distribution with histograms
+
 ---
 
 ### Requirements
