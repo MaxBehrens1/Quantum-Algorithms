@@ -1,5 +1,6 @@
-# Credentials file
+# Files
 config.txt
+beh2_states_dataset.json
 
 # Python specifics
 .python-version
