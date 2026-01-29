@@ -1,29 +1,105 @@
-# Quantum-Algorithms
+# Quantum Algorithms
 
-My name is Max Behrens and I am a 4th-year MSci Physics student at Imperial College London. This repository contains a collection of quantum computing algorithms implemented using Qiskit, intended for learning and exploring basic quantum circuits on simulators and real IBM Quantum devices.
+A collection of quantum computing algorithms and implementations using Qiskit. This repository contains tutorial implementations of fundamental quantum algorithms, as well as more advanced projects exploring quantum machine learning techniques.
+
+## Table of Contents
+
+- [QUMAP - Quantum UMAP](#qumap---quantum-umap)
+- [Quantum Autoencoder](#quantum-autoencoder)
+- [Tutorial Algorithms](#tutorial-algorithms)
+- [Requirements](#requirements)
 
 ---
 
-## H_CNOT.ipynb
+## QUMAP - Quantum UMAP
 
-This notebook demonstrates a 2-qubit quantum circuit that creates a Bell state. It covers:
+A quantum implementation of the UMAP (Uniform Manifold Approximation and Projection) dimensionality reduction algorithm. This project uses variational quantum circuits trained with the classical UMAP loss function to map high-dimensional quantum states to 2D embeddings.
 
-- Preparing the initial state |00>
-- Applying a Hadamard gate on qubit 0
-- Applying a CNOT gate with qubit 0 as control and qubit 1 as target
-- Simulating the circuit using fake backends and real IBM Quantum hardware
-- Measuring expectation values of Pauli observables using the Estimator primitive
+### Files
 
-The notebook illustrates entanglement, circuit behaviour, and comparison between simulator and hardware results including statistical and mitigation errors.
+| File | Description |
+|------|-------------|
+| `QUMAP.py` | Core QUMAP class implementing the quantum UMAP algorithm. Contains methods for state encoding, parametrized ansatz circuits, cost computation, and 2D embedding generation. |
+| `TrainQUMAP.py` | Training script that optimizes the variational circuit parameters to minimize the UMAP cost function. Saves optimized parameters to JSON with timestamps for multiple training runs. |
+| `PlotQUMAP.py` | Visualization script that loads saved parameters and plots the 2D embeddings with distinct colours for each data category. |
+| `IrisStateGeneration.ipynb` | Jupyter notebook for preprocessing the Iris dataset and preparing quantum states for QUMAP. |
+| `iris_dataset.csv` | Preprocessed Iris dataset with features normalised to [-1, 1] and plant type labels. |
+| `iris_params.json` | Saved optimized parameters from training runs. |
 
-## RandNumGen.ipynb
+### Usage
 
-This notebook implements a simple quantum random number generator using measurement statistics from a multi-qubit circuit. It demonstrates:
+```python
+from QUMAP import QUMAP
 
-- Constructing a circuit that produces uniformly distributed bitstrings
-- Executing the circuit on a simulator or real backend
-- Converting measured bitstrings into integers
-- Visualising the resulting distribution with histograms
+# Create QUMAP instance
+qumap = QUMAP(num_qubits=4, num_layers=2, k=10)
+
+# Load data and compute cost
+data = pd.read_csv('iris_dataset.csv').values
+params = qumap.random_params()
+cost = qumap.compute_cost(data, params)
+
+# Get 2D embedding
+coords_2d, labels = qumap.get_embedding(data, optimized_params)
+
+# Visualize circuit structure
+qumap.draw_circuit()
+```
+
+---
+
+## Quantum Autoencoder
+
+Implementation of quantum autoencoders for quantum data compression, including Schumacher compression and comparisons with classical PCA.
+
+### Files
+
+| File | Description |
+|------|-------------|
+| `QuantumAutoencoder.ipynb` | Main implementation of the quantum autoencoder using variational circuits to compress quantum states into a lower-dimensional latent space. |
+| `SchumacherEig.ipynb` | Implementation of Schumacher compression using eigenvalue decomposition of density matrices. |
+| `PCACompression.ipynb` | Classical PCA compression for comparison with quantum methods. |
+| `StateGeneration.ipynb` | Notebook for generating quantum states (BeH₂ molecular states) used as training data for the autoencoder. |
+| `beh2_states_dataset.json` | Dataset of BeH₂ molecular ground states at various bond lengths for autoencoder training. |
+| `density_matrix_eigvals.csv` | Eigenvalues of density matrices used in Schumacher compression analysis. |
+
+---
+
+## Tutorial Algorithms
+
+Implementations of fundamental quantum algorithms for educational purposes.
+
+### Files
+
+| File | Description |
+|------|-------------|
+| `BellStatePrep.ipynb` | Preparation and measurement of Bell states - maximally entangled two-qubit states. Demonstrates basic quantum entanglement. |
+| `Grovers.ipynb` | Grover's search algorithm for unstructured database search, demonstrating quadratic speedup over classical search. |
+| `QuantumFT.ipynb` | Quantum Fourier Transform (QFT) implementation - a key subroutine in many quantum algorithms including Shor's algorithm. |
+| `RandNumGen.ipynb` | Quantum random number generator using quantum superposition to generate truly random numbers. |
+
+---
+
+## Requirements
+
+- Python 3.10+
+- Qiskit
+- NumPy
+- SciPy
+- Pandas
+- Matplotlib
+
+Install dependencies:
+
+```bash
+pip install qiskit numpy scipy pandas matplotlib
+```
+
+---
+
+## Author
+
+Max Behrens - Imperial College London
 
 ---
 
